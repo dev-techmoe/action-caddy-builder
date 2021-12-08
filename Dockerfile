@@ -1,3 +1,3 @@
 FROM caddy:alpine
 
-COPY --from=builder caddy /usr/bin/caddy
+COPY caddy /usr/bin/caddy
