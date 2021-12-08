@@ -42,8 +42,10 @@ jobs:
           ./caddy version >> release-note.md
           echo "Bundled Plugins" >> release-note.md
           echo -n ${{ github.event.inputs.plugins }} | xargs -d, -I {} echo - {} >> release-note.md
-      - name: Upload release
-        uses: softprops/action-gh-release@v1
+      - name: upload executable to artifact
+        uses: actions/upload-artifact@v2
         with:
-          body_path: release-note.md
-          files: caddy
+          name: my-artifact
+          path: |
+            caddy
+            release-note.md
