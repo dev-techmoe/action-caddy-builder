@@ -15,11 +15,11 @@ jobs:
         id: buildx
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
-            buildx-version: latest
+          buildx-version: latest
       - name: Set up Golang environment
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.13.1'
+          go-version: "^1.13.1"
       - name: Login docker registry  (ghcr.io)
         run: |-
           # new login with new container registry url and PAT
@@ -31,7 +31,6 @@ jobs:
       - name: Build caddy with plugins
         run: |-
           xcaddy build $(cat plugins  | xargs -I {} echo -n " --with {}")
-          xcaddy build $(echo -n ${{ github.event.inputs.plugins }}  | xargs -d, -I {} echo -n " --with {}")
       - name: Build Docker image and push
         run: |-
           docker buildx build \
