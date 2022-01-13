@@ -30,6 +30,7 @@ jobs:
           go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
       - name: Build caddy with plugins
         run: |-
+          xcaddy build $(cat plugins  | xargs -I {} echo -n " --with {}")
           xcaddy build $(echo -n ${{ github.event.inputs.plugins }}  | xargs -d, -I {} echo -n " --with {}")
       - name: Build Docker image and push
         run: |-
