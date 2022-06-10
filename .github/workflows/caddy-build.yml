@@ -34,7 +34,8 @@ jobs:
       - name: Build Docker image and push
         run: |-
           docker buildx build \
-              --tag ghcr.io/${GITHUB_REPOSITORY} \
+              --tag ghcr.io/${GITHUB_REPOSITORY}:$(date +"%Y%m%d%H%M%S") \
+              --tag ghcr.io/${GITHUB_REPOSITORY}:latest \
               --push .
       - name: Generate release note
         run: |-
