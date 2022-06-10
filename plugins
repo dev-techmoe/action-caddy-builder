@@ -1,6 +1,4 @@
 github.com/mholt/caddy-webdav
-github.com/greenpau/caddy-auth-portal
 github.com/caddyserver/replace-response
-github.com/greenpau/caddy-authorize
 github.com/sjtug/caddy2-filter
 github.com/greenpau/caddy-security
