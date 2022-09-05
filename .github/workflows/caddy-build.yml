@@ -39,10 +39,10 @@ jobs:
               --push .
       - name: Generate release note
         run: |-
-          echo "Caddy version"
+          echo "# Caddy version"
           ./caddy version >> release-note.md
-          echo "Bundled Plugins" >> release-note.md
-          echo -n ${{ github.event.inputs.plugins }} | xargs -d, -I {} echo - {} >> release-note.md
+          echo "# Bundled Plugins" >> release-note.md
+          cat plugins >> release-note.md
       - name: upload executable to artifact
         uses: actions/upload-artifact@v2
         with:
@@ -50,3 +50,8 @@ jobs:
           path: |
             caddy
             release-note.md
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "caddy"
+          bodyFile: "release-note.md"
+          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
