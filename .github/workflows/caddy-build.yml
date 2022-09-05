@@ -43,6 +43,7 @@ jobs:
           ./caddy version >> release-note.md
           echo "# Bundled Plugins" >> release-note.md
           cat plugins >> release-note.md
+          export RELEASE_NAME="v$(date +%Y%m%d%H%M%S)"
       - name: upload executable to artifact
         uses: actions/upload-artifact@v2
         with:
@@ -54,4 +55,6 @@ jobs:
         with:
           artifacts: "caddy"
           bodyFile: "release-note.md"
+          name: ${RELEASE_NAME}
+          tag: ${RELEASE_NAME}
           token: ${{ secrets.GITHUB_TOKEN }}
