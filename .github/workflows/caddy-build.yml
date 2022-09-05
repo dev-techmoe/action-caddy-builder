@@ -54,4 +54,4 @@ jobs:
         with:
           artifacts: "caddy"
           bodyFile: "release-note.md"
-          token: ${{ secrets.YOUR_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
