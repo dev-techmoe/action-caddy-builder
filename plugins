@@ -3,4 +3,3 @@ github.com/caddyserver/replace-response
 github.com/sjtug/caddy2-filter
 github.com/greenpau/caddy-security
 github.com/caddy-dns/cloudflare
-github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive
