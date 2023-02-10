@@ -25,12 +25,12 @@ jobs:
           # new login with new container registry url and PAT
           # login to Github ghcr.io
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      - name: Set up xcaddy
-        run: |-
-          go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
-      - name: Build caddy with plugins
-        run: |-
-          xcaddy build $(cat plugins  | xargs -I {} echo -n " --with {}")
+      # - name: Set up xcaddy
+      #   run: |-
+      #     go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest
+      # - name: Build caddy with plugins
+      #   run: |-
+      #     xcaddy build $(cat plugins  | xargs -I {} echo -n " --with {}")
       - name: Build Docker image and push
         run: |-
           docker buildx build \
@@ -42,8 +42,8 @@ jobs:
         run: |-
           echo "# Archtype" >> release-note.md
           echo "Linux amd64" >> release-note.md
-          echo "# Caddy version" >> release-note.md
-          ./caddy version >> release-note.md
+          # echo "# Caddy version" >> release-note.md
+          # ./caddy version >> release-note.md
           echo "# Bundled Plugins" >> release-note.md
           cat plugins >> release-note.md
           echo "RELEASE_NAME=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
@@ -52,7 +52,7 @@ jobs:
         with:
           name: my-artifact
           path: |
-            caddy
+            # caddy
             release-note.md
       - uses: ncipollo/release-action@v1
         with:

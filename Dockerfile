@@ -1,3 +1,6 @@
-FROM caddy:alpine
+FROM caddy:builder as builder
+ARG CADDY_PLUGINS
+RUN xcaddy build ${CADDY_PLUGINS}
 
-COPY caddy /usr/bin/caddy
+FROM caddy:alpine
+COPY --from=builder caddy /usr/bin/caddy
