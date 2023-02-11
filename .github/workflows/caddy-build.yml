@@ -1,9 +1,12 @@
 on:
   workflow_dispatch:
     inputs:
-      plugins:
-        description: Repo urls of plugin need to be bundled
+#       plugins:
+#         description: Repo urls of plugin need to be bundled
+#         required: false
+      arch:
         required: false
+        default: linux/arm64,linux/amd64
 
 jobs:
   build:
@@ -32,9 +35,11 @@ jobs:
       #   run: |-
       #     xcaddy build $(cat plugins  | xargs -I {} echo -n " --with {}")
       - name: Build Docker image and push
+        env:
+          ARCH: ${{ inputs.arch }}
         run: |-
           docker buildx build \
-              --platform linux/amd64,linux/arm64 \
+              --platform ${ARCH} \
               --build-arg CADDY_PLUGIN="$(cat plugins  | xargs -I {} echo -n " --with {}")" \
               --progress=plain \
               --tag ghcr.io/${GITHUB_REPOSITORY}:$(date +"%Y%m%d%H%M%S") \
