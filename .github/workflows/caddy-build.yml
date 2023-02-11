@@ -40,7 +40,7 @@ jobs:
         run: |-
           docker buildx build \
               --platform ${ARCH} \
-              --build-arg CADDY_PLUGIN="$(cat plugins  | xargs -I {} echo -n " --with {}")" \
+              --build-arg CADDY_PLUGINS="$(cat plugins  | xargs -I {} echo -n " --with {}")" \
               --progress=plain \
               --tag ghcr.io/${GITHUB_REPOSITORY}:$(date +"%Y%m%d%H%M%S") \
               --tag ghcr.io/${GITHUB_REPOSITORY}:latest \
