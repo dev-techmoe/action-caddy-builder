@@ -82,7 +82,7 @@ jobs:
           buildah manifest create $container_name
           for f in $(ls target/images)
           do
-            export arch=$(echo $f | sed -r -e "s/^(.+)-(.+)-(.+)\.tar$/\2\/\3/g")
+            export arch=$(echo $f | sed -r -e "s/^(.+)-(.+)-(.+)\.tar$/\3/g")
             echo "Run command: 'buildah manifest add $container_name docker-archive:target/images/$f --arch $arch'"
             buildah manifest add $container_name docker-archive:target/images/$f --arch $arch
           done
