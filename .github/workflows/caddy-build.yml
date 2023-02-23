@@ -15,7 +15,7 @@ jobs:
           - linux/arm64
           - linux/amd64
           - linux/arm
-          - linux/386
+          # - linux/386
           - linux/ppc64le
           - linux/s390x
     steps:
