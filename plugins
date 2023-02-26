@@ -5,3 +5,4 @@ github.com/greenpau/caddy-security
 github.com/caddy-dns/cloudflare
 github.com/crewjam/saml@v0.4.10=github.com/greenpau/origin_crewjam_saml@v0.4.11-0.20221229165346-936eba92623a
 github.com/caddyserver/forwardproxy@caddy2=github.com/klzgrad/forwardproxy@naive
+github.com/lucaslorentz/caddy-docker-proxy/v2
