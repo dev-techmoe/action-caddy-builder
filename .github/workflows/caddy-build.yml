@@ -74,7 +74,8 @@ jobs:
           echo "mount path: $mount_path"
           sudo cp $mount_path/$binary_path target/binaries/${{ env.container_name_with_arch }}
           echo
-          tree -h
+          tree -h ~ -L 3
+          
       - uses: actions/upload-artifact@v3
         name: upload artifact
         with:
