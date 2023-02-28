@@ -33,7 +33,7 @@ jobs:
           echo "target container name: $container_name_with_arch"
       - name: Build and export container image
         run: |-
-          buildah bud -t ${{ env.container_name_with_arch }} --platform ${{ matrix.arch }} .
+          buildah bud -t ${{ env.container_name_with_arch }} --platform ${{ matrix.arch }} --build-arg CADDY_PLUGINS='$(cat plugins  | xargs -I {} echo -n " --with {}")' .
           # export image
           mkdir -p target/images
           buildah push $container_name_with_arch docker-archive:target/images/${{ env.container_name_with_arch }}.tar
