@@ -61,7 +61,7 @@ jobs:
           buildah bud -t ${{ env.container_name_with_arch }} \
               --platform ${{ matrix.arch }} \
               -v ~/.cache/go-build:/root/.cache/go-build \
-              -v ~/go/pkg/mod:/root/go/pkg/mod
+              -v ~/go/pkg/mod:/root/go/pkg/mod \
               --build-arg CADDY_PLUGINS="$(cat plugins  | xargs -I {} echo -n ' --with {}')" .
           # export image
           mkdir -p target/images
