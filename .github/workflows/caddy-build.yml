@@ -26,9 +26,9 @@ jobs:
     strategy:
       matrix:
         arch:
-          # - linux/arm64
+          - linux/arm64
           - linux/amd64
-          # - linux/arm
+          - linux/arm
           # - linux/386
           # - linux/ppc64le
           # - linux/s390x
