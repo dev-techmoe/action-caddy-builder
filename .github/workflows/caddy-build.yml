@@ -10,11 +10,15 @@ jobs:
   generate-version:
     runs-on: ubuntu-22.04
     outputs:
-      version: ${{ steps.generate-version.outputs.version }}
+      version: ${{ steps.gen-ver.outputs.version }}
     steps:
       - name: Generate version number
+        id: gen-ver
         run: |-
           echo "version=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+      - name: Make sure variable has set to environment correctly
+        run: |-
+          echo "steps.gen-ver.outputs.version: ${{ steps.gen-ver.outputs.version }}"
     
   build-linux:
     runs-on: ubuntu-22.04
