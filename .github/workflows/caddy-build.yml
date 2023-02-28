@@ -7,17 +7,26 @@ env:
   binary_path: /usr/bin/caddy
 
 jobs:
+  generate-version:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.generate-version.outputs.version }}
+    steps:
+      - name: Generate version number
+        run: |-
+          echo "version=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+    
   build-linux:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch:
-          - linux/arm64
+          # - linux/arm64
           - linux/amd64
-          - linux/arm
+          # - linux/arm
           # - linux/386
-          - linux/ppc64le
-          - linux/s390x
+          # - linux/ppc64le
+          # - linux/s390x
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -61,6 +70,7 @@ jobs:
   push-to-registry:
     runs-on: ubuntu-22.04
     needs:
+      - generate-version
       - build-linux
     steps:
       - uses: actions/download-artifact@v2
@@ -90,17 +100,21 @@ jobs:
           buildah manifest inspect $container_name
       - name: Push image to registry
         run: |-
-          echo "+ Run command: 'buildah manifest push --all $container_name docker://ghcr.io/${GITHUB_REPOSITORY}:latest'"
-          buildah manifest push --all $container_name docker://ghcr.io/${GITHUB_REPOSITORY}:latest
+          # echo "+ Run command: 'buildah manifest push --all $container_name docker://ghcr.io/${GITHUB_REPOSITORY}:latest'"
+          buildah tag $container_name ghcr.io/${GITHUB_REPOSITORY}:latest
+          buildah tag $container_name ghcr.io/${GITHUB_REPOSITORY}:${{ needs.generate-version.outputs.version }}
+          buildah manifest rm $container_name
+          buildah manifest push --all ghcr.io/${GITHUB_REPOSITORY}:latest
 
   upload-release:
     runs-on: ubuntu-22.04
     needs:
+      - generate-version
       - build-linux
     steps:
-      - name: Generate names
-        run: |-
-          echo "RELEASE_NAME=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+#       - name: Generate names
+#         run: |-
+#           echo "RELEASE_NAME=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
       - uses: actions/download-artifact@v2
         name: Download artifacts
         with:
@@ -110,6 +124,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "target/binaries/*"
-          name: ${{ env.RELEASE_NAME }}
-          tag: ${{ env.RELEASE_NAME }}
+          name: ${{ needs.generate-version.outputs.version }}
+          tag: ${{ needs.generate-version.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
