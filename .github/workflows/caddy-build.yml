@@ -17,6 +17,7 @@ jobs:
         run: |-
           echo "version=v$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
       - name: Make sure variable has set to environment correctly
+        id: test-ver
         run: |-
           echo "steps.gen-ver.outputs.version: ${{ steps.gen-ver.outputs.version }}"
     
